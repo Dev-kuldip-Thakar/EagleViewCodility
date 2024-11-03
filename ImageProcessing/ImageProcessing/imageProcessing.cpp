@@ -9,7 +9,7 @@
 namespace fs = std::filesystem;
 using namespace cv;
 
-// Function to collect all .jpg and .png file paths in the specified directory
+// Below Function is used to collect all .jpg and .png file paths in the specified directory
 std::vector<std::string> getImagePaths(const std::string& directory) {
     std::vector<std::string> paths;
     for (const auto& entry : fs::directory_iterator(directory)) {
@@ -21,7 +21,7 @@ std::vector<std::string> getImagePaths(const std::string& directory) {
     return paths;
 }
 
-// Function to create a binary mask and return the count of "max" pixels
+// Below Function to create a binary mask and return the count of "max" pixels
 cv::Mat createBinaryMask(const cv::Mat& image, int& pixelCount) {
     cv::Mat mask = cv::Mat::zeros(image.size(), CV_8U);
     pixelCount = 0;
@@ -29,7 +29,8 @@ cv::Mat createBinaryMask(const cv::Mat& image, int& pixelCount) {
     for (int y = 0; y < image.rows; y++) {
         for (int x = 0; x < image.cols; x++) {
             cv::Vec3b color = image.at<cv::Vec3b>(y, x);
-            if (color[0] > 200 && color[1] > 200 && color[2] > 200) {
+            if (color[0] > 200 && color[1] > 200 && color[2] > 200) //Checking with all the channels 
+            {
                 mask.at<uchar>(y, x) = 255;
                 pixelCount++;
             }
@@ -71,8 +72,8 @@ void saveTotalPixelCount(const std::string& filePath, int totalPixelCount) {
 }
 
 int main() {
-    std::string imageDir = "E:\\EagleViewTesst\\imagesToload";
-    std::string outputDir = "E:\\EagleViewTesst\\Total_pixel";
+    std::string imageDir = "E:\\EagleViewTesst\\imagesToload"; //Please Enter  Image directory here
+    std::string outputDir = "E:\\EagleViewTesst\\Total_pixel"; //Please Enter Output directory here
     std::string pixelCountFile = outputDir + "\\pixel_count.txt";
 
     std::vector<std::string> imagePaths = getImagePaths(imageDir);
@@ -80,7 +81,7 @@ int main() {
 
     // Process images in parallel
 #pragma omp parallel for
-    for (size_t i = 0; i < imagePaths.size(); ++i) {
+    for (int i = 0; i < imagePaths.size(); ++i) {
         processImage(imagePaths[i], totalPixelCount, i, outputDir);
     }
 
