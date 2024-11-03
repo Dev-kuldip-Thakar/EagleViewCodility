@@ -2,7 +2,7 @@
 It is about parallel processing an image and counting the pixels above some value
 
 Miultiple thread proce
-
+# Please find the code at imageProcessing/imageProcessing/imageProcessing.cpp
 # OpenCV Image Processing Project
 
 ## Overview
